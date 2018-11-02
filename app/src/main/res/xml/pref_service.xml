@@ -1,0 +1,15 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <EditTextPreference
+        android:defaultValue="192.168.8.200"
+        android:key="grpc_server_ip"
+        android:summary="192.168.8.200"
+        android:title="Service IP" />
+
+    <EditTextPreference
+        android:defaultValue="50051"
+        android:key="grpc_server_port"
+        android:summary="50051"
+        android:title="Service Port" />
+
+</PreferenceScreen>
