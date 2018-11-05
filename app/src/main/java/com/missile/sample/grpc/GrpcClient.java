@@ -1,12 +1,21 @@
 package com.missile.sample.grpc;
 
+import android.content.Context;
+import android.os.Handler;
 import android.util.Log;
 
 import com.missile.sample.utils.Utils;
+import com.missile.service.grpc.BondReply;
+import com.missile.service.grpc.BondRequest;
+import com.missile.service.grpc.CtrlReply;
+import com.missile.service.grpc.CtrlRequest;
 import com.missile.service.grpc.GreeterGrpc;
 import com.missile.service.grpc.HelloReply;
 import com.missile.service.grpc.HelloRequest;
+import com.missile.service.grpc.ScanReply;
+import com.missile.service.grpc.ScanRequest;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -47,6 +56,60 @@ public class GrpcClient {
                 .awaitTermination(1, TimeUnit.SECONDS);
         return reply.getMessage();
     }
+
+    public static String bluetoothBond(String mac, boolean insecure)
+            throws Exception {
+        Map<String, String> headerMap = getHeader();
+        ClientInterceptor interceptor = new HeaderClientInterceptor(headerMap);
+        ManagedChannel managedChannel = getManagedChannel();
+        Channel channel = ClientInterceptors.intercept(managedChannel, interceptor);
+        GreeterGrpc.GreeterBlockingStub stub = GreeterGrpc.newBlockingStub(channel);
+        BondRequest message = BondRequest.newBuilder()
+                .setMac(mac)
+                .setInsecure(insecure)
+                .build();
+        BondReply reply = stub.bluetoothBond(message);
+        //server headerMap
+        managedChannel.shutdown()
+                .awaitTermination(1, TimeUnit.SECONDS);
+        return reply.getRet();
+    }
+
+
+    public static String ctrlBluetooth(String mac, int ctrl)
+            throws Exception {
+        Map<String, String> headerMap = getHeader();
+        ClientInterceptor interceptor = new HeaderClientInterceptor(headerMap);
+        ManagedChannel managedChannel = getManagedChannel();
+        Channel channel = ClientInterceptors.intercept(managedChannel, interceptor);
+        GreeterGrpc.GreeterBlockingStub stub = GreeterGrpc.newBlockingStub(channel);
+        CtrlRequest message = CtrlRequest.newBuilder()
+                .setMac(mac)
+                .setCtrl(ctrl)
+                .build();
+        CtrlReply reply = stub.ctrlBluetooth(message);
+        //server headerMap
+        managedChannel.shutdown().awaitTermination(1, TimeUnit.SECONDS);
+        return reply.getRet();
+    }
+
+
+    public static String showScanPic(String pic) throws Exception {
+        Map<String, String> headerMap = getHeader();
+        ClientInterceptor interceptor = new HeaderClientInterceptor(headerMap);
+        ManagedChannel managedChannel = getManagedChannel();
+        Channel channel = ClientInterceptors.intercept(managedChannel, interceptor);
+        GreeterGrpc.GreeterBlockingStub stub = GreeterGrpc.newBlockingStub(channel);
+        //发送网络请求信息，显示相应图片
+        ScanRequest message = ScanRequest.newBuilder().setPic(pic).build();
+        //返回网络请求的响应
+        ScanReply reply = stub.showScanPic(message);
+        //server headerMap
+        managedChannel.shutdown().awaitTermination(1, TimeUnit.SECONDS);
+        //获取响应信息
+        return reply.getRet();
+    }
+
 
     static class HeaderClientInterceptor
             implements ClientInterceptor {

@@ -1,11 +1,15 @@
 package com.missile.service.grpc;
 
+import android.app.ActivityManager;
 import android.app.IntentService;
 import android.content.Context;
 import android.content.Intent;
+import android.os.SystemClock;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
+import com.missile.service.MainActivity;
+import com.missile.service.dialog.ShowQRCodeDialog;
 import com.missile.service.utils.Utils;
 
 import java.util.HashMap;
@@ -28,6 +32,7 @@ public class GreeterGrpcService extends IntentService {
     private static boolean start = false;
     private static Context mContext;
     private static HeaderServerInterceptor mHeaderServerInterceptor;
+    private static ShowQRCodeDialog mScanPicDialog = null;
 
     public GreeterGrpcService() {
         super("GreeterGrpcService");
@@ -43,6 +48,7 @@ public class GreeterGrpcService extends IntentService {
         mContext = this;
         Log.e(TAG, "=====GreeterGrpcService Start=====");
         Utils.setContext(mContext);
+        mScanPicDialog = new ShowQRCodeDialog(this);
     }
 
     @Override
@@ -88,6 +94,16 @@ public class GreeterGrpcService extends IntentService {
         }
     }
 
+    private static String getRunningActivityName() {
+
+        ActivityManager activityManager = (ActivityManager) mContext.getSystemService(Context.ACTIVITY_SERVICE);
+
+        String runningActivity = activityManager.getRunningTasks(1).get(0).topActivity.getClassName();
+
+        return runningActivity;
+
+    }
+
     public class GreeterImpl extends GreeterGrpc.GreeterImplBase {
         @Override
         public void sayHello(HelloRequest request, StreamObserver<HelloReply> responseObserver) {
@@ -98,12 +114,42 @@ public class GreeterGrpcService extends IntentService {
 
         @Override
         public void bluetoothBond(BondRequest request, StreamObserver<BondReply> responseObserver) {
-            super.bluetoothBond(request, responseObserver);
+
+            if (!getRunningActivityName().equals("com.missile.service.MainActivity")) {
+                Intent intent = new Intent(mContext, MainActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                mContext.startActivity(intent);
+                SystemClock.sleep(500);
+            }
+            MainActivity.setBluetoothFragment();
+            String ret = MainActivity.bluetoothBond(request.getMac(), request.getInsecure());
+            BondReply reply = BondReply.newBuilder().setRet(ret).build();
+            responseObserver.onNext(reply);
+            responseObserver.onCompleted();
+
         }
 
         @Override
         public void ctrlBluetooth(CtrlRequest request, StreamObserver<CtrlReply> responseObserver) {
-            super.ctrlBluetooth(request, responseObserver);
+            if (!getRunningActivityName().equals("com.missile.service.MainActivity")) {
+                Intent intent = new Intent(mContext, MainActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                mContext.startActivity(intent);
+                SystemClock.sleep(500);
+            }
+            MainActivity.setBluetoothFragment();
+            String ret = MainActivity.ctrlBluetooth(request.getMac(), request.getCtrl());
+            CtrlReply reply = CtrlReply.newBuilder().setRet(ret).build();
+            responseObserver.onNext(reply);
+            responseObserver.onCompleted();
+        }
+
+        @Override
+        public void showScanPic(ScanRequest request, StreamObserver<ScanReply> responseObserver) {
+            String ret = mScanPicDialog.setImageShowPic(request.getPic());
+            ScanReply reply = ScanReply.newBuilder().setRet(ret).build();
+            responseObserver.onNext(reply);
+            responseObserver.onCompleted();
         }
     }
 

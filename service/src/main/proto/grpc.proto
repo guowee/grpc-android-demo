@@ -29,6 +29,8 @@ service Greeter {
     }
     rpc CtrlBluetooth (CtrlRequest) returns (CtrlReply) {
     }
+    rpc ShowScanPic (ScanRequest) returns (ScanReply) {
+    }
 }
 
 // The request message containing the user's name.
@@ -57,5 +59,13 @@ message CtrlRequest {
 }
 
 message CtrlReply {
+    string ret = 1;
+}
+
+message ScanRequest {
+    string pic = 1;
+}
+
+message ScanReply {
     string ret = 1;
 }

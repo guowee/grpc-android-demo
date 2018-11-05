@@ -36,7 +36,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
                 android:drawablePadding="10dp"
-                android:text="Tester 蓝牙服务"
+                android:text="蓝牙服务"
                 android:textColor="@color/textColorPrimary"
                 android:textSize="18sp" />
 
@@ -46,7 +46,7 @@
                 android:layout_marginLeft="20dp"
                 android:padding="10dp"
                 android:singleLine="false"
-                android:text="为Paydroid Tester提供蓝牙服务"
+                android:text="为APP提供蓝牙服务"
                 android:textColor="@color/textColorPrimary"
                 android:textSize="13sp" />
 

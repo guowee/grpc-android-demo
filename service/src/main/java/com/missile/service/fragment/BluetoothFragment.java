@@ -1,6 +1,5 @@
 package com.missile.service.fragment;
 
-
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
@@ -189,11 +188,6 @@ public class BluetoothFragment extends Fragment {
                     } else {
                         serverSocket = btAdapt.listenUsingRfcommWithServiceRecord("local1", uuid);
                     }
-                    Log.d(TAG, "accept");
-                  /*  if (bl_Insecure)
-                        Utils.appendBluLog("Insecure..." + "\n");
-
-                    Utils.appendBluLog("服务开始监听..." + "\n");*/
 
                     bl_ready = true;
                     if (btAdapt.isDiscovering())
@@ -289,7 +283,7 @@ public class BluetoothFragment extends Fragment {
         return true;
     }
 
-    public String ctrlBluetoothd(String mac, int ctrl) {
+    public String ctrlBluetooth(String mac, int ctrl) {
         BluetoothDevice btDev = btAdapt.getRemoteDevice(mac);
 
         Method setScanModeMethod = null;
@@ -297,11 +291,9 @@ public class BluetoothFragment extends Fragment {
             //setDiscoverableTimeoutMethod = BluetoothAdapter.class.getMethod("setDiscoverableTimeout",int.class);
             setScanModeMethod = BluetoothAdapter.class.getMethod("setScanMode", int.class, int.class);
             Boolean res = (Boolean) setScanModeMethod.invoke(btAdapt, BluetoothAdapter.SCAN_MODE_CONNECTABLE_DISCOVERABLE, 0);
-            //Log.d(TAG,"setScanModeMethod FIND OK");
         } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
-            //Log.d(TAG,"setScanModeMethod FIND Exception");
         }
 
         if (!btAdapt.isDiscovering()) {
@@ -387,11 +379,8 @@ public class BluetoothFragment extends Fragment {
             //setDiscoverableTimeoutMethod = BluetoothAdapter.class.getMethod("setDiscoverableTimeout",int.class);
             setScanModeMethod = BluetoothAdapter.class.getMethod("setScanMode", int.class, int.class);
             Boolean res = (Boolean) setScanModeMethod.invoke(btAdapt, BluetoothAdapter.SCAN_MODE_CONNECTABLE_DISCOVERABLE, 0);
-            //Log.d(TAG,"setScanModeMethod FIND OK");
         } catch (Exception e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
-            //Log.d(TAG,"setScanModeMethod FIND Exception");
         }
 
         if (!btAdapt.isDiscovering()) {
@@ -509,11 +498,8 @@ public class BluetoothFragment extends Fragment {
             //setDiscoverableTimeoutMethod = BluetoothAdapter.class.getMethod("setDiscoverableTimeout",int.class);
             setScanModeMethod = BluetoothAdapter.class.getMethod("setScanMode", int.class, int.class);
             Boolean res = (Boolean) setScanModeMethod.invoke(btAdapt, BluetoothAdapter.SCAN_MODE_CONNECTABLE_DISCOVERABLE, 0);
-            //Log.d(TAG,"setScanModeMethod FIND OK");
         } catch (Exception e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
-            //Log.d(TAG,"setScanModeMethod FIND Exception");
         }
 
         mMacTextView.setText(btAdapt.getAddress());

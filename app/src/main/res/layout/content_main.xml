@@ -24,13 +24,68 @@
         app:cardPreventCornerOverlap="true"
         app:cardUseCompatPadding="true">
 
-
-        <android.support.v7.widget.AppCompatButton
-            android:id="@+id/btn_say_hello"
-            android:layout_width="wrap_content"
+        <GridLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:text="sayHello" />
+            android:columnCount="3">
+
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/btn_say_hello"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="sayHello" />
+
+
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/btn_bind_bt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="bind BT" />
+
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/btn_ctrl_bt_0"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="ctrl BT-0" />
+
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/btn_ctrl_bt_1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="ctrl BT-1" />
+
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/btn_ctrl_bt_2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="ctrl BT-2" />
+
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/btn_scan_qr"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="show QR" />
+
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/btn_get_version"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="get ver" />
+
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/btn_reboot"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="reboot" />
+        </GridLayout>
 
 
     </android.support.v7.widget.CardView>
